@@ -13,7 +13,7 @@ export class JwtUtills {
     static verifyToken(token:string):string|object{
         try {
             const decode = jwt.verify(token,this.key)
-            console.log(decode);
+            // console.log(decode);
             
             return decode
         } catch (error:any) {

@@ -22,7 +22,7 @@ export const rbacMiddleware = (permission: string) => {
                 if(userRole && userRole.permissions.includes(permission)){
                 next();
             } else {
-                res.status(403).json({ message: `You do not have permission to ${permission} this resource.` });
+                res.status(403).json({ message: `The ${user?.role} does not have permission to ${permission} this resource.` });
             }
         } catch (error: any) {
             res.status(500).json({ message: 'Internal server error' });

@@ -42,14 +42,12 @@ class BookController {
         try {
             const role = (req as CustomRequest).role;
             const userId: any = (req as CustomRequest).userId;
-            console.log("UserID", userId);
+
             const { title, author, category, ISBN, description, price } = req.body;
 
             const id = req.params.id;
             const bookById = await BookServices.showBookById(id);
-            console.log(bookById.author);
-            console.log((userId !== bookById.author));
-
+          
             if (role == 'admin') {
                 // throw new Error(`You Don't Have parmisson to Updated this Book?`)
                 const updatedBook = await BookServices.updateBook(id, title, author, category, ISBN, description, price);
@@ -58,18 +56,9 @@ class BookController {
             }
 
             if (userId !== bookById.author) {
-                throw new Error(`You Don't Have parmisson to Updated this Book`)
+                throw new Error(` Don't Have parmisson to Updated this Book`)
 
             }
-
-            const Books = await BookServices.bookByAutherId(userId);
-            console.log("Books By UserId", Books);
-
-            const authorIds = Books.map((book) => book.author.toString());
-            console.log("Authors", authorIds);
-
-            console.log("AUthor array contains", authorIds.includes(userId));
-
             const bookCategory = await categoryServices.showCategoryById(category)
             // console.log(bookCategory);
 
@@ -91,10 +80,25 @@ class BookController {
     public async deleteBook(req: Request, res: Response): Promise<void> {
         try {
             const id = req.params.id;
+            const role = (req as CustomRequest).role;
+            const userId:any = (req as CustomRequest).userId;
             const book = await BookServices.showBookById(id);
             if (!book) {
                 throw new Error(`Book With Id ${id} Not Found`)
             }
+
+            const bookById = await BookServices.showBookById(id);
+            if (userId !== bookById.author) {
+                throw new Error(`Don't Have parmisson to Delete this Book`)
+
+            }   
+
+            if(role==='admin'){
+                await BookServices.deleteBook(id);
+                res.json({ message: "Book Deleted Successfully" })
+                return
+            }
+
             await BookServices.deleteBook(id);
             res.json({ message: "Book Deleted Successfully" })
 

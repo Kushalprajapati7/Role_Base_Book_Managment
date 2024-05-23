@@ -19,7 +19,27 @@ class BookServices{
     }
 
     public async showAllBook():Promise<BookDocument[]>{
-        const books = await BookModel.find();
+        let books = await BookModel.find();
+        books = await BookModel.aggregate([
+            {
+                $project:{
+                    _id:1,
+                    title:1,
+                    author:1,
+                    category:1, ISBN:1, description:1, price:1,
+                    createdAt:{ $dateToString: {
+                        date: "$createdAt",
+                        timezone: "Asia/Kolkata",
+                        format: "%d-%m-%Y %H:%M:%S"
+                      }},
+                    updatedAt:{ $dateToString: {
+                        date: "$updatedAt",
+                        timezone: "Asia/Kolkata",
+                        format: "%d-%m-%Y %H:%M:%S"
+                      }},
+                }
+            }
+        ])
         return books;
     }
 
