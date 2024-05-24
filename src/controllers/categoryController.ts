@@ -30,7 +30,6 @@ class CategoryController{
     public async delete(req:Request, res:Response):Promise<void>{
         try {
             const id = req.params.id;
-            // const {name, description} = req.body;
             const category = await categoryServices.deleteCategory(id);
             res.json({category, message:"Category deleted Successfully"})    
         } catch (error:any) {
@@ -42,8 +41,6 @@ class CategoryController{
 
     public async allCategory(req:Request, res:Response):Promise<void>{
         try {
-            // const id = req.params.id;
-            // const {name, description} = req.body;
             const category = await categoryServices.showCategories();
             res.json({category, message:"List Of Category"})    
         } catch (error:any) {
@@ -56,7 +53,6 @@ class CategoryController{
     public async categoryById(req:Request, res:Response):Promise<void>{
         try {
             const id = req.params.id;
-            // const {name, description} = req.body;
             const category = await categoryServices.showCategoryById(id);
             res.json({category, message:`Category of id ${id}`})    
         } catch (error:any) {

@@ -4,7 +4,6 @@ import {AuthorDocument} from '../interfaces/authorInterface'
 
 class AuthorServices{
     public async createAuthor(name: string, biography: string, nationality: string): Promise<AuthorDocument> {
-        // const newauthor = await authorModel.create({ name, biography, nationality })
         const newAuthor = new authorModel({ name, biography, nationality })
         return newAuthor.save();
     }
@@ -21,11 +20,9 @@ class AuthorServices{
 
     public async deleteAuthor(id: string): Promise<void> {
         const author = await authorModel.findByIdAndDelete(id);
-        // return profile;
     }
 
     public async findAuthorById(id: string): Promise<AuthorDocument> {
-        // console.log("findbyIdfun");
         const author:any = await authorModel.findById(id);
         return author
     }

@@ -3,7 +3,7 @@ import AuthorServices from "../services/authorServices";
 import { Request, Response } from "express";
 import categoryServices from "../services/categoryServices";
 import CustomRequest from "../types/customRequest";
-
+import pdfGenerate from "../utils/pdfGenerate";
 class BookController {
     // private BookServices:BookServices;
 
@@ -152,6 +152,26 @@ class BookController {
             res.status(500).json({
                 message: error.message
             })
+        }
+    }
+
+    public async pdfGenerate(req:Request, res:Response):Promise<void>{
+        try {
+            const { id } = req.params;
+
+            const pdfDoc = await pdfGenerate.generatePDF(id);
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=book.pdf');
+            
+            // res.download(pdfDoc)
+            pdfDoc.pipe(res);
+            pdfDoc.end();
+
+        } catch (error:any) {
+            res.status(500).json({
+                message: error.message
+            }) 
         }
     }
 }

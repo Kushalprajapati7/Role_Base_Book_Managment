@@ -7,7 +7,6 @@ class AuthorController {
             const { name, biography, nationality } = req.body;
             const newAuthor = await authorServices.createAuthor(name, biography, nationality);
             res.json({ newAuthor, message: "Author Added Successfully" })
-
         }
         catch (error: any) {
             res.status(500).json({
@@ -37,7 +36,6 @@ class AuthorController {
     public async deleteAuthor(req: Request, res: Response): Promise<void> {
         try {
             const id = req.params.id;
-            // const {name,biography,nationality} =req.body;
             const author = await authorServices.findAuthorById(id)
             if(!author){
                 throw new Error(`Author with Id ${id} not found`);

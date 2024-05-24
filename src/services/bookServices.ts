@@ -55,4 +55,3 @@ class BookServices{
 }
 
 export default new BookServices();
-// export default BookServices;

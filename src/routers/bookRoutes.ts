@@ -10,5 +10,8 @@ router.put('/updateBook/:id', verifyToken, rbacMiddleware('write'), BookControll
 router.delete('/deleteBook/:id', verifyToken, rbacMiddleware('delete'), BookController.deleteBook)
 router.get('/allBook', verifyToken, rbacMiddleware('read'), BookController.showAllBook)
 router.get('/bookById/:id', verifyToken, rbacMiddleware('read'), BookController.showBookById)
+
 router.get('/bookByAuthorId/:id', verifyToken, rbacMiddleware('read'), BookController.showBooksByAuthor)
+router.get('/bookPDF/:id', verifyToken, rbacMiddleware('read'), BookController.pdfGenerate)
+
 export default router;
